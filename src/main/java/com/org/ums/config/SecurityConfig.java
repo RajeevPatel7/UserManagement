@@ -1,5 +1,7 @@
 package com.org.ums.config;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.org.ums.domain.services.RoleManagementService;
 import com.org.ums.domain.services.UserManagementService;
+import com.org.ums.domain.services.UserRoleManagementService;
+import com.org.ums.entity.model.Role;
+import com.org.ums.entity.model.User;
+import com.org.ums.model.UserRoleMappingBean;
 
 @EnableJpaRepositories(basePackages = "com.org.ums.repository")
 @Configuration
@@ -21,8 +27,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired 	private UserDetailsService userDetailsService;
 	@Autowired	UserManagementService createUserService;
 	@Autowired	RoleManagementService roleManagementService;
+	@Autowired UserRoleManagementService userRoleMgmtSvc;
 
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		initialize();
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 
@@ -48,6 +56,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		return bCryptPasswordEncoder;
 
+	}
+	
+	//TODO
+	private void initialize() throws Exception {
+
+		User user = new User();
+		user.setEmail("admin@hcl.com");
+		user.setPassword("pwd");
+		createUserService.registerUser(user);
+
+		Role role = new Role();
+		role.setRole("Admin");
+		roleManagementService.registerRole(role);
+
+		UserRoleMappingBean userRoleMappingBean = new UserRoleMappingBean();
+		userRoleMappingBean.setUserId("admin@hcl.com");
+		userRoleMappingBean.setRoleList(Arrays.asList(("Admin")));
+		userRoleMgmtSvc.mapRole(userRoleMappingBean);
 	}
 
 }
