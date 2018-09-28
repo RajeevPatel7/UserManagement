@@ -16,7 +16,7 @@ public class UserRoleMappingController {
 	@Autowired IUserRoleManagementService userRoleManagementService;
 	
 	@RequestMapping(value="userRoleMapping", method=RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE})
-	public void mapUserToRoles(@RequestBody UserRoleMappingBean userRoleMappingBean) throws Exception{
-		userRoleManagementService.mapRole(userRoleMappingBean);
+	public UserRoleMappingBean mapUserToRoles(@RequestBody UserRoleMappingBean userRoleMappingBean) throws Exception{
+		return userRoleManagementService.mapRole(userRoleMappingBean);
 	}
 }

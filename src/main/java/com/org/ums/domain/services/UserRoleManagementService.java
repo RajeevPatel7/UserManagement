@@ -23,22 +23,22 @@ public class UserRoleManagementService implements IUserRoleManagementService {
 	@Autowired
 	RoleRepository roleRepository;
 
-	public void mapRole(UserRoleMappingBean userRoleMappingBean) throws Exception {
+	public UserRoleMappingBean mapRole(UserRoleMappingBean userRoleMappingBean) throws Exception {
 		
 		List<Role> dbRoleList = roleRepository.findAll();
 		
 		List<String> stringifyRoles = dbRoleList.stream().map(Role::getRole).collect(Collectors.toList());
 		
 		if (stringifyRoles.containsAll(userRoleMappingBean.getRoleList())) {
-			mapUsersToRoles(userRoleMappingBean);
+			return mapUsersToRoles(userRoleMappingBean);
 		} else {
 			throw new Exception("Few Roles are not avaialble");
 		}
 	}
 
-	private void mapUsersToRoles(UserRoleMappingBean userRoleMappingBean) throws Exception {
+	private UserRoleMappingBean mapUsersToRoles(UserRoleMappingBean userRoleMappingBean) throws Exception {
 	
-		Optional<User> dbUser = userRepository.findByEmail(userRoleMappingBean.getUserId());
+		Optional<User> dbUser = userRepository.findByEmailId(userRoleMappingBean.getEmailId());
 		
 		if (!dbUser.isPresent()) {
 			throw new Exception("Wrong users");
@@ -52,7 +52,8 @@ public class UserRoleManagementService implements IUserRoleManagementService {
 		dbUser.get().setRoles(roleList);
 		dbUser.get().setActive(true);
 		userRepository.save(dbUser.get());
+		userRoleMappingBean.setActive(true);
+		return userRoleMappingBean;
 
 	}
-
 }

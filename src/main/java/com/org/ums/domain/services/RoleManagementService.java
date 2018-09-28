@@ -25,8 +25,12 @@ public class RoleManagementService implements IRoleManagementService {
 	}
 
 	@Override
-	public void deleteRole(String role) {
-		roleRepository.deleteByRole(role);
+	public void deleteRole(String role) throws Exception {
+		try{
+			roleRepository.deleteByRole(role);
+		}catch(Exception e){
+			throw new Exception("remove User and Role mapping first");
+		}
 	}
 
 }

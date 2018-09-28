@@ -14,11 +14,11 @@ import com.org.ums.entity.model.User;
 @Transactional
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
-	Optional<User> findByEmail(String email);
+	Optional<User> findByEmailId(String email);
 	
 	@Modifying
 	@Query(value = "DELETE FROM USERS WHERE EMAIL_ADDRESS = ?1", nativeQuery = true)
-	void deleteByEmail(String email);
+	void deleteByEmailId(String email);
 	
 }
 	

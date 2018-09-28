@@ -29,7 +29,7 @@ public class User {
 	private String password;
 
 	@Column(name = "EMAIL_ADDRESS")
-	private String email;
+	private String emailId;
 	@Column
 	private boolean active;
 
@@ -44,7 +44,7 @@ public class User {
 		super();
 		this.userId = user.userId;
 		this.password = user.password;
-		this.email = user.email;	
+		this.emailId = user.emailId;	
 		this.active = user.active;
 		this.roles = user.roles;
 	}
@@ -65,12 +65,12 @@ public class User {
 		this.password = password;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getEmailId() {
+		return emailId;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmailId(String email) {
+		this.emailId = email;
 	}
 
 	public boolean isActive() {

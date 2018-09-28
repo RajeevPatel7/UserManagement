@@ -21,7 +21,7 @@ public class RoleManagementController {
 	}
 	
 	@RequestMapping(value ="/deleteRole/{roleName}", method=RequestMethod.DELETE)
-	public void deleteRole(@PathVariable("roleName") String roleName){
+	public void deleteRole(@PathVariable("roleName") String roleName) throws Exception{
 		roleManagemetnService.deleteRole(roleName);
 	}
 	

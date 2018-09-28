@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import com.org.ums.domain.services.RoleManagementService;
 import com.org.ums.domain.services.UserManagementService;
@@ -22,6 +23,7 @@ import com.org.ums.model.UserRoleMappingBean;
 
 @EnableJpaRepositories(basePackages = "com.org.ums.repository")
 @Configuration
+@Component
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired 	private UserDetailsService userDetailsService;
@@ -29,8 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired	RoleManagementService roleManagementService;
 	@Autowired UserRoleManagementService userRoleMgmtSvc;
 
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		initialize();
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {		
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 
@@ -47,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.csrf().disable();
 		http.headers().frameOptions().disable();
+		initialize();
 	}
 
 	@Bean
@@ -59,21 +61,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	//TODO
-	private void initialize() throws Exception {
+	private void initialize() {
 
 		User user = new User();
-		user.setEmail("admin@hcl.com");
-		user.setPassword("pwd");
-		createUserService.registerUser(user);
-
+		user.setEmailId("admin@hcl.com");
+		user.setPassword("admin");
 		Role role = new Role();
 		role.setRole("Admin");
-		roleManagementService.registerRole(role);
-
 		UserRoleMappingBean userRoleMappingBean = new UserRoleMappingBean();
-		userRoleMappingBean.setUserId("admin@hcl.com");
+		userRoleMappingBean.setEmailId("admin@hcl.com");
 		userRoleMappingBean.setRoleList(Arrays.asList(("Admin")));
-		userRoleMgmtSvc.mapRole(userRoleMappingBean);
+		try {
+			createUserService.registerUser(user);
+			roleManagementService.registerRole(role);
+			
+			userRoleMgmtSvc.mapRole(userRoleMappingBean);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }

@@ -4,14 +4,15 @@ import java.util.List;
 
 public class UserRoleMappingBean {
 	
-	private String userId;
+	private String emailId;
+	private boolean active;
 	private List<String> roleList;
 	
-	public String getUserId() {
-		return userId;
+	public String getEmailId() {
+		return emailId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
 	}
 	public List<String> getRoleList() {
 		return roleList;
@@ -19,7 +20,10 @@ public class UserRoleMappingBean {
 	public void setRoleList(List<String> roleList) {
 		this.roleList = roleList;
 	}
-	
-	
-
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 }
