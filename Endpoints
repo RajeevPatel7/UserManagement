@@ -1,0 +1,45 @@
+User APIs:
+1. Create new user
+URL :  localhost:9090/user
+Req Params: {
+"emailId" : "2@hcl.com",
+"password" : "admin"
+}
+Reqs type: Post
+
+2. Delete user: 
+URL :  localhost:9090/deleteUser/2@hcl.com
+Reqs type: Delete
+
+3. Update user pwd
+URL :  localhost:9090/updateUser
+Req Params: {
+"emailId" : "2@hcl.com",
+"password" : "admin"
+}
+Reqs type: Put
+
+4. getAll User
+URL :localhost:8080/userList
+Reqs type: get
+
+
+Role Apis:
+1. Create new Role
+URL :  localhost:9090/createRole
+Req Params: {
+"role" : "Admin"}
+Reqs type: Post
+
+2. Delete role: 
+URL :  localhost:9090/deleteRole/Admin
+Reqs type: Delete
+
+
+
+Assign Role to User
+URL :  localhost:9090/userRoleMapping
+Req Params: {
+"roleList" : ["Admin", "User2"], "emailId": "2@hcl.com"}
+Reqs type: Post
+
